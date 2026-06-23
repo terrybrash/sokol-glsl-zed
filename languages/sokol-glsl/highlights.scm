@@ -1,6 +1,6 @@
-; sokol-shdc @-tag directives.
-; The whole tag (e.g. "@vs") is a single token, so highlighting it as one
-; keyword is exactly what keeps a formatter from splitting "@vs" into "@ vs".
+; ---- sokol @-tag directives -------------------------------------------------
+; Each whole tag (e.g. "@vs") is a single keyword token, so a formatter can
+; never split it into "@ vs".
 [
   "@vs"
   "@fs"
@@ -24,5 +24,18 @@
 (block_directive name: (identifier) @function)
 (program_directive name: (identifier) @function)
 
-; Free-form argument of @ctype / @header / @include / @module / options ...
+; Free-form argument of @ctype / @header / @include / @module / options …
 (value_directive value: (value) @string)
+
+; ---- embedded GLSL ----------------------------------------------------------
+(keyword) @keyword
+(type) @type
+(number) @number
+(comment) @comment
+(preproc) @keyword
+
+; gl_* built-in variables and ALL_CAPS constants
+((identifier) @variable.builtin
+ (#match? @variable.builtin "^gl_"))
+((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z0-9_]*$"))

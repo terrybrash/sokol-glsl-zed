@@ -10,14 +10,17 @@ It exists to fix one concrete problem: the stock **GLSL** extension runs
 
 - treats each `@`-tag as a **single keyword token**, so nothing ever inserts a
   space after `@`;
-- highlights the directives — `@vs`/`@fs`/`@end`/… as keywords, block & program
-  names, and `@ctype`/`@header`/… argument values;
+- highlights the directives (`@vs`/`@fs`/`@end`/… as keywords, block & program
+  names, `@ctype`/`@header`/… values) **and the embedded GLSL** — keywords,
+  built-in types, numbers, comments, `gl_*` builtins and `ALL_CAPS` constants —
+  by lexing the GLSL directly in the grammar (no language injection);
 - attaches **no language server**, so there's no formatter to mangle the tags
   and no false "syntax error" squiggles on the `@`-tags.
 
-> Note: shader-body GLSL coloring (via grammar injection) was removed in 0.3.0
-> because it triggered a runaway syntax-reparse loop in Zed. The `@`-tags
-> highlight; the GLSL body currently renders plain.
+> The GLSL body is colored by *lexing* (recognizing keywords/types/numbers/
+> comments), not by full parsing — so ordinary function calls and variables
+> render as plain identifiers. This is deliberate: it avoids the grammar-
+> injection reparse loop an earlier version hit in Zed.
 
 ## Install
 

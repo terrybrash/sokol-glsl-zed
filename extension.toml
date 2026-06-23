@@ -1,15 +1,16 @@
 id = "sokol-glsl"
 name = "Sokol GLSL"
-version = "0.3.0"
+version = "0.4.0"
 schema_version = 1
-description = "GLSL with sokol-shdc @-tags (@vs/@fs/@cs/@block/@end/@program ...). Highlights each @-tag as a single keyword token so a formatter can never split @vs into @ vs. Attaches no language server."
+description = "GLSL with sokol-shdc @-tags (@vs/@fs/@cs/@block/@end/@program ...). Highlights the @-tags as single keyword tokens (so a formatter can never split @vs into @ vs) and the embedded GLSL itself (keywords, types, numbers, comments). No language server, no grammar injection."
 authors = ["Terry Brash <terrybrashaw@gmail.com>"]
 repository = "https://github.com/terrybrash/sokol-glsl-zed"
 languages = ["languages/sokol-glsl"]
 
-# The sokol @-tag grammar. Zed clones this repo at `rev` and compiles
-# src/parser.c to wasm on install. To change it: edit grammar.js in the grammar
-# repo, `tree-sitter generate`, commit & push, then bump `rev` here.
+# The sokol @-tag grammar (which also lexes the embedded GLSL). Zed clones this
+# repo at `rev` and compiles src/parser.c to wasm on install. To change it: edit
+# grammar.js in the grammar repo, `tree-sitter generate`, commit & push, then
+# bump `rev` here.
 [grammars.sokol_glsl]
 repository = "https://github.com/terrybrash/sokol-glsl-tree-sitter"
-rev = "d55187bb3cee720393ef90618fb4a831108b25eb"
+rev = "acd43c94a9589a3d16b736974966306aff6a6cfc"
