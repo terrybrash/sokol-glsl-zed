@@ -1,0 +1,4 @@
+# Zed's compiled-grammar output, created on install
+grammars/
+*.wasm
+.DS_Store

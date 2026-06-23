@@ -1,0 +1,14 @@
+name = "Sokol GLSL"
+grammar = "sokol_glsl"
+path_suffixes = ["glsl"]
+line_comments = ["// "]
+block_comment = { start = "/* ", prefix = "* ", end = "*/", tab_size = 1 }
+# No language server is attached on purpose: glsl_analyzer parses the whole
+# file as GLSL, flags every @-tag as an error, and (via its formatter) rewrites
+# "@vs" into "@ vs". Leaving it off keeps sokol files clean.
+brackets = [
+  { start = "{", end = "}", close = true, newline = true },
+  { start = "[", end = "]", close = true, newline = true },
+  { start = "(", end = ")", close = true, newline = false },
+  { start = "\"", end = "\"", close = true, newline = false },
+]

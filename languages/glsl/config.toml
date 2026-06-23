@@ -1,0 +1,8 @@
+name = "GLSL"
+grammar = "glsl"
+# Injection-only language: it deliberately declares NO path_suffixes, so it
+# never grabs a file on its own. Sokol GLSL owns .glsl and injects this grammar
+# into the shader bodies. No language server is attached, so nothing here can
+# reformat anything.
+line_comments = ["// "]
+block_comment = { start = "/* ", prefix = "* ", end = "*/", tab_size = 1 }
