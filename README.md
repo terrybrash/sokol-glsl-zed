@@ -10,13 +10,14 @@ It exists to fix one concrete problem: the stock **GLSL** extension runs
 
 - treats each `@`-tag as a **single keyword token**, so nothing ever inserts a
   space after `@`;
-- **injects real GLSL** into the shader blocks (`@vs … @end`, `@block … @end`)
-  so the body keeps full GLSL highlighting — each block body is one contiguous
-  injection region, so the GLSL parser always sees a complete translation unit;
-- is **self-contained** — it bundles its own GLSL grammar, so it works without
-  the stock GLSL extension installed;
+- highlights the directives — `@vs`/`@fs`/`@end`/… as keywords, block & program
+  names, and `@ctype`/`@header`/… argument values;
 - attaches **no language server**, so there's no formatter to mangle the tags
   and no false "syntax error" squiggles on the `@`-tags.
+
+> Note: shader-body GLSL coloring (via grammar injection) was removed in 0.3.0
+> because it triggered a runaway syntax-reparse loop in Zed. The `@`-tags
+> highlight; the GLSL body currently renders plain.
 
 ## Install
 
@@ -32,11 +33,9 @@ git clone https://github.com/terrybrash/sokol-glsl-zed
 ```
 
 In Zed: command palette → **`zed: install dev extension`** → select the cloned
-`sokol-glsl-zed` folder. Zed clones the two grammars (the sokol one from
-[sokol-glsl-tree-sitter](https://github.com/terrybrash/sokol-glsl-tree-sitter)
-and GLSL from [theHamsta/tree-sitter-glsl](https://github.com/theHamsta/tree-sitter-glsl)),
-compiles both to wasm (first build takes a minute or two), and registers the
-**Sokol GLSL** language.
+`sokol-glsl-zed` folder. Zed clones the grammar from
+[sokol-glsl-tree-sitter](https://github.com/terrybrash/sokol-glsl-tree-sitter),
+compiles it to wasm, and registers the **Sokol GLSL** language.
 
 ### Per-project setup
 
@@ -59,10 +58,9 @@ reliably claims `.glsl` even if the stock GLSL extension is also installed.
 
 ```
 sokol-glsl-zed/                       (this repo — the extension)
-├── extension.toml                    declares both grammars (sokol_glsl + glsl) by URL+commit
+├── extension.toml                    declares the sokol_glsl grammar by URL+commit
 └── languages/
-    ├── sokol-glsl/{config,highlights,injections}…   the "Sokol GLSL" language; owns *.glsl
-    └── glsl/{config,highlights}…                    bundled GLSL, injection target only
+    └── sokol-glsl/{config,highlights}…   the "Sokol GLSL" language; owns *.glsl
 ```
 
 The sokol grammar lives in a separate repo,
@@ -100,9 +98,8 @@ SHA, bump `version`, and rebuild the dev extension in Zed (reinstall).
 
 ## Notes / limitations
 
-- The `#pragma sokol @program …` alternate form isn't specially highlighted (it
-  lives inside a GLSL line and is injected as GLSL). The bare `@`-tag form is
-  fully supported.
+- The `#pragma sokol @program …` alternate form isn't specially highlighted.
+  The bare `@`-tag form is fully supported.
 - `@`-tags are recognized at column 0 (how sokol-shdc writes them). A name on a
   block tag (`@vs vs`) is required, as in real sokol files.
 
