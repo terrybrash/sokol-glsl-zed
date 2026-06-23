@@ -15,7 +15,8 @@ repository = "https://github.com/terrybrash/sokol-glsl-tree-sitter"
 rev = "d55187bb3cee720393ef90618fb4a831108b25eb"
 
 # Bundled GLSL grammar (the same one Zed's own GLSL extension uses) so shader
-# bodies highlight without needing any other extension installed.
+# bodies highlight without needing any other extension installed. Canonical URL
+# (the project was transferred from theHamsta/, which now redirects here).
 [grammars.glsl]
-repository = "https://github.com/theHamsta/tree-sitter-glsl"
+repository = "https://github.com/tree-sitter-grammars/tree-sitter-glsl"
 rev = "31064ce53385150f894a6c72d61b94076adf640a"
